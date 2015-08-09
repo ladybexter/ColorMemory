@@ -46,7 +46,7 @@ function setSpeed()
 }
 function generateRandomNumberList(index)
 {
-	
+	document.getElementById("results").innerHTML = "";
 	if (index == 0)
 	{
 		this.setSpeed();
@@ -91,10 +91,13 @@ function generateRandomNumberList(index)
 function useNumber(index)
 {
 	var number = Math.floor((Math.random() * 4) + 1);
-			
-	while(randomList[randomList.length-1] == number)
+	
+	if (index != 0)
 	{
-		number = Math.floor((Math.random() * 4) + 1);
+		while(randomList[randomList.length-1] == number)
+		{
+			number = Math.floor((Math.random() * 4) + 1);
+		}
 	}
 	this.changeColor(number);		
 	
@@ -109,8 +112,10 @@ function compareEntry(input)
   if (position <= randomList.length - 1)
   {
 	var nextPosition = position + 1;
+	
 	if (input == randomList[position])
 	{
+		position += 1;
 		correctItems += 1;
 		document.getElementById("correct").innerHTML = correctItems;
 		
@@ -123,16 +128,18 @@ function compareEntry(input)
 	{		
 		if (nextPosition <= randomList.length - 1)
 		{
-			var nthColor = position + 2;
+			position += 1;
+			var nthColor = position + 1;
 			document.getElementById("results").innerHTML  = "Incorrect color. Please continue to pick the " + nthColor + ". color in the sequence!";
 		}
 		else
 		{
-			reset();
+			alert("here");
+			this.reset();
 		}
 	}
 	
-	position += 1;
+	
   }
   else
   {
@@ -153,7 +160,8 @@ function reset()
 	}
 	numberOfPlays = 0;
 	correctItems = 0;
-	randomList.length = 0;
+	position = 0;
+	randomList = [];
 	document.getElementById("correct").innerHTML = "";
 	document.getElementById("colorBox").style.background="black"; 
 	document.getElementById("start").disabled = false;
@@ -173,7 +181,7 @@ function reset()
 Difficulty Level: <input id="games" type="text" name="Level">
 <button id = "start" onclick="generateRandomNumberList(0)">Start</button><br><br>
 <div id="colorBox" style="background:black; width:100px; height:100px;"></div><br><br>
-Number of correct color picks:<div id="correct">0</div>
+Number of correct color picks:<div id="correct"></div>
 <b><div id="results"></div></b>
 <br>
 <p><button id ="red" style="background:red; width:100px; height:100px;" onclick="compareEntry(3)" disabled = "true">RED</button><button id = "blue" style="background:blue; width:100px; height:100px;" onclick="compareEntry(2)" disabled = "true">BLUE</button></p>
