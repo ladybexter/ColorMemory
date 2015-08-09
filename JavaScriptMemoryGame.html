@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<center><b>Memorize the Sequence of Colors</b> </center>
+<script>
+var numberOfPlays;
+var randomList = [];
+var correctItems = 0;
+var position = 0;
+var speed = 1000;
+function changeColor(choice)
+{
+    if(choice==1)
+    {
+        document.getElementById("colorBox").style.background="yellow"; 
+    }
+    else if (choice ==2)
+    {
+        document.getElementById("colorBox").style.background="blue";        
+    }
+	else if (choice ==3)
+	{
+		document.getElementById("colorBox").style.background="red"; 
+	}
+	else if (choice ==4)
+	{
+		document.getElementById("colorBox").style.background="green"; 
+	}
+}
+
+function setSpeed()
+{
+	var selectedSpeed = document.querySelector('input[name = "speed"]:checked').value;
+	if(selectedSpeed == "slow")
+	{
+		speed = 2000;
+	}
+	else if (selectedSpeed == "fast")
+	{
+		speed = 800;
+	}
+	else
+	{
+		speed = 1200;
+	}
+}
+function generateRandomNumberList(index)
+{
+	
+	if (index == 0)
+	{
+		this.setSpeed();
+		
+		var diff = document.getElementById("games").value;
+		
+		if (diff >100 || diff < 0)
+		{
+			alert("Please set difficulty between 1 and 100");
+		}
+		else
+		{
+			numberOfPlays = document.getElementById("games").value;
+			
+			if (index < numberOfPlays)
+			{		
+				this.useNumber(index);			
+			}			
+		}
+		
+		document.getElementById("games").value = "";
+		
+	}
+	else
+	{
+		if (index < numberOfPlays)
+		{		
+			this.useNumber(index);		
+		}
+		else
+		{
+			document.getElementById("colorBox").style.background="gray"; 			
+		}
+		
+	}	
+}
+
+function useNumber(index)
+{
+	var number = Math.floor((Math.random() * 4) + 1);
+			
+	while(randomList[randomList.length] == number)
+	{
+		number = Math.floor((Math.random() * 4) + 1);
+	}
+	this.changeColor(number);		
+	
+	randomList.push(number);
+	var c = index + 1;
+	setTimeout(generateRandomNumberList, speed,c);	
+}
+
+function compareEntry(input)
+{
+  if (position <= randomList.length - 1)
+  {
+	var nextPosition = position + 1;
+	if (input == randomList[position])
+	{
+		correctItems += 1;
+		document.getElementById("correct").innerHTML = correctItems;
+		
+		if (nextPosition == randomList.length)
+		{
+			this.reset();
+		}
+	}
+	else
+	{
+		
+		if (nextPosition <= randomList.length - 1)
+		{
+			var nthColor = position + 2;
+			alert("Incorrect color. Please continue to pick the " + nthColor + ". color in the sequence!");
+		}
+		else
+		{
+			reset();
+		}
+	}
+	
+	position += 1;
+  }
+  else
+  {
+	this.reset();
+  }
+  
+}
+
+function reset()
+{
+    if (correctItems == numberOfPlays)
+	{
+		alert("Game has finished! Congratulations, you remembered ALL colors in the correct sequence.");
+	}
+	else
+	{
+		alert("Game has finished! You remembered "+correctItems+ " out of "+ numberOfPlays+" colors in the correct sequence.");
+	}
+	numberOfPlays = 0;
+	correctItems = 0;
+	randomList.length = 0;
+	document.getElementById("correct").innerHTML = correctItems;
+	document.getElementById("colorBox").style.background="black"; 
+}
+function setVariable()
+{
+	numberOfPlays = document.getElementById("games").value;
+	if (numberOfPlays == 0)
+	{
+		alert("Please set difficulty between 1 and 100");
+	}
+	else
+	{
+		alert("When you are ready, click Start. Pay attention to the sequence and colors. When the color display finishes try to recreate the sequence. Good Luck!");	
+	}
+}
+
+</script>
+</head>
+<body>
+<center>
+<p>Chose a speed at which the colors will be displayed</p>
+<input type="radio" name="speed" value="slow">slow<input type="radio" name="speed" value="medium"checked>medium<input type="radio" name="speed" value="fast">fast<br><br>
+<p>Chose a difficulty level between 1 and 100.</p>
+Difficulty Level: <input id="games" type="text" name="Level"><button onclick="setVariable()">submit</button>
+<button onclick="generateRandomNumberList(0)">Start</button><br><br>
+<div id="colorBox" style="background:black; width:100px; height:100px;"></div><br><br>
+Number of correct color picks:<div id="correct">0</div>
+<br>
+<p><button style="background:red; width:100px; height:100px;" onclick="compareEntry(3)">RED</button><button style="background:blue; width:100px; height:100px;" onclick="compareEntry(2)">BLUE</button></p>
+<p><button style="background:green; width:100px; height:100px;" onclick="compareEntry(4)">GREEN</button><button style="background:yellow; width:100px; height:100px;" onclick="compareEntry(1)">YELLOW</button></p>
+</center>
+</body>
+</html
+
